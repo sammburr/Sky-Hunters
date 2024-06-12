@@ -1,0 +1,80 @@
+[gd_scene load_steps=7 format=3 uid="uid://c6tw4q6mxw551"]
+
+[ext_resource type="PackedScene" uid="uid://ta7fq8gvmlyf" path="res://scenes/enviroment.tscn" id="1_wwjqv"]
+[ext_resource type="Script" path="res://classes/ui_manager.gd" id="2_oovj8"]
+[ext_resource type="Script" path="res://classes/network_manager.gd" id="3_07lih"]
+[ext_resource type="Script" path="res://classes/player_manager.gd" id="4_o8jdq"]
+[ext_resource type="PackedScene" uid="uid://d2ag6u8ncud5v" path="res://scenes/networked_player.tscn" id="5_gxny0"]
+[ext_resource type="PackedScene" uid="uid://bg510cumyofsy" path="res://scenes/local_player.tscn" id="6_5d4gc"]
+
+[node name="Main" type="Node3D"]
+
+[node name="World" type="Node" parent="."]
+
+[node name="Floor" type="CSGBox3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0305023, -2.05066, -0.0464783)
+use_collision = true
+size = Vector3(16.4959, 0.0847168, 13.1513)
+
+[node name="Enviroment" parent="World" instance=ExtResource("1_wwjqv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.41156, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.989714, 0.143061, 0, -0.143061, 0.989714, 0, 2.27349, 6.51114)
+
+[node name="UI" type="Node" parent="."]
+script = ExtResource("2_oovj8")
+
+[node name="Server Button" type="Button" parent="UI"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -90.0
+offset_top = -15.0
+offset_right = -32.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Server"
+
+[node name="Player Button" type="Button" parent="UI"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 30.0
+offset_top = -15.0
+offset_right = 88.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Player"
+
+[node name="Disconnect Button" type="Button" parent="UI"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -47.0
+offset_top = -31.0
+offset_right = 47.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Disconnect
+"
+
+[node name="Network Manager" type="Node" parent="."]
+script = ExtResource("3_07lih")
+
+[node name="Player Manager" type="Node" parent="."]
+script = ExtResource("4_o8jdq")
+network_player = ExtResource("5_gxny0")
+local_player = ExtResource("6_5d4gc")
+
+[connection signal="button_down" from="UI/Server Button" to="UI" method="_on_server_button_button_down"]
+[connection signal="button_down" from="UI/Player Button" to="UI" method="_on_player_button_button_down"]
+[connection signal="button_down" from="UI/Disconnect Button" to="UI" method="_on_disconnect_button_button_down"]
