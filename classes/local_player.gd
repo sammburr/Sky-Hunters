@@ -1,20 +1,30 @@
 class_name LocalPlayer
-extends CharacterBody3D
+extends Player
 
-@export var speed = 200
 @export var sens = 1
+@export var viewmodel_swing = 0.5
+
+@onready var viewmodel : Node3D = $Head/VIEWMODEL
 
 var player_manager : PlayerManager
 var server_position : Vector3 # Position as broadcast by server
+var origin_viewmodel : Vector3 # Start position of viewmodel
 
-@onready var head = $Head
+func _ready():
+	origin_viewmodel = viewmodel.position
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
 		head.rotate_x(-event.relative.y * get_process_delta_time() * sens)
 		rotate_y(-event.relative.x * get_process_delta_time() * sens)
+		
+		# Apply viewmodel swing
+		viewmodel.position.y += event.relative.y * get_process_delta_time() * viewmodel_swing
+		viewmodel.position.x += -event.relative.x * get_process_delta_time() * viewmodel_swing
 
 func _physics_process(delta):
+
+	apply_gravity()
 
 	if Input.is_action_just_pressed("ui_cancel"):
 		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
@@ -22,26 +32,34 @@ func _physics_process(delta):
 		else:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
-	if not is_on_floor():
-		velocity.y -= 9.81 * delta
+	# Jumping
+	if Input.is_action_just_pressed("ui_accept") and is_grounded:
+		player_jump()
 	
 	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	
 	if not multiplayer.is_server():
+		# TODO: make cleaner here...
+		
 		# Send input to server for verification
-		player_manager.send_input_direction.rpc_id(1, input_dir)
+		var input_dirs = [input_dir.x, input_dir.y]
+		if Input.is_action_just_pressed("ui_accept") and is_grounded:
+			input_dirs.append(1.0)
+		else:
+			input_dirs.append(0.0)
+		
+		player_manager.send_input_direction.rpc_id(1, input_dirs)
 		player_manager.send_rotation.rpc_id(1, rotation, head.rotation)
 		
 		# Lerp towards server position
 		position = lerp(position, server_position, 0.5)
-		print(position.distance_to(server_position))
+		if position.distance_to(server_position) < 0.01:
+			position = server_position
 
-	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-
-	velocity.x = direction.x
-	velocity.z = direction.z
-
-	velocity.z = lerp(velocity.z, 0.0, 0.5)
-	velocity.x = lerp(velocity.x, 0.0, 0.5)
+	# Apply viewmodel swing acording to input_dir
+	viewmodel.position.x -= input_dir.x * delta * viewmodel_swing * 4.0
+	viewmodel.position.z -= input_dir.y * delta * viewmodel_swing * 4.0
 	
-	move_and_slide()
+	viewmodel.position = lerp(viewmodel.position, origin_viewmodel, 0.5)
+
+	player_move(input_dir)

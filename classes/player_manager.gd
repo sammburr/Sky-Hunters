@@ -52,7 +52,7 @@ func remove_network_player(id : int):
 			players.erase(player)
 
 func clear_players():
-	players = []
+	players = {}
 	
 	for child in get_children():
 		child.queue_free()
@@ -71,7 +71,7 @@ func update_player_infos():
 		var values = [player.name, player.position, player.rotation, player.head.rotation]
 		players[player] = values
 
-@rpc("authority", "call_remote", "unreliable")
+@rpc("authority", "call_remote", "unreliable_ordered")
 func send_player_infos(player_infos : Dictionary):
 	
 	# player_infos :
@@ -88,8 +88,9 @@ func send_player_infos(player_infos : Dictionary):
 					player.position = values[1]
 
 # Send to server only!
-@rpc("any_peer", "call_remote", "reliable")
-func send_input_direction(input_dir : Vector2):
+@rpc("any_peer", "call_remote", "unreliable_ordered")
+# input_dirs = [ move.x, move.z, jump ]
+func send_input_direction(input_dirs : Array):
 	if not multiplayer.is_server():
 		return
 	
@@ -98,7 +99,8 @@ func send_input_direction(input_dir : Vector2):
 	for player in players:
 		if str(sender) == player.name:
 			if player is NetworkedPlayer:
-				player.input_dir = input_dir
+				player.input_dir = Vector2(input_dirs[0], input_dirs[1])
+				player.input_jump = input_dirs[2]
 
 # Send to server only!
 @rpc("any_peer", "call_remote", "reliable")
