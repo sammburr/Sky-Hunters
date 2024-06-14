@@ -1,3 +1,5 @@
+# TODO: refactor all code as this as an autoload
+
 class_name PlayerManager
 extends Node
 
@@ -41,7 +43,7 @@ func add_player(player_inst):
 			while player.position.distance_to(player_inst.position) <= 2.0:
 				player_inst.position += Vector3(2.0,0.0,0.0)
 	
-	var values = [player_inst.name, player_inst.position, player_inst.rotation, player_inst.head.rotation]
+	var values = [player_inst.name, player_inst.position, player_inst.rotation, player_inst.head.rotation, 0.0]
 	players[player_inst] = values
 
 func remove_network_player(id : int):
@@ -67,22 +69,23 @@ func _process(_delta):
 		
 
 func update_player_infos():
-	for player in players.keys():
-		var values = [player.name, player.position, player.rotation, player.head.rotation]
+	for player : Player in players.keys():												   # TODO: make blend value better
+		var values = [player.name, player.position, player.rotation, player.head.rotation, player.velocity.length()/5.0]
 		players[player] = values
 
 @rpc("authority", "call_remote", "unreliable_ordered")
 func send_player_infos(player_infos : Dictionary):
 	
-	# player_infos :
-	# { player_object_id : [ player_name, player_position, player_rotation, player_head_rotation ], ... }
+	# player_infos :																			  use to blend walk anim
+	# { player_object_id : [ player_name, player_position, player_rotation, player_head_rotation, player_walk_blend_value ], ... }
 	
 	for player in players.keys():
 		for values in player_infos.values():
 			if values[0] == player.name:
 				if player is LocalPlayer:
 					player.server_position = values[1]
-				else:
+				elif player is NetworkedPlayer:
+					player.move_blend_value = values[4]
 					player.head.rotation = values[3]
 					player.rotation = values[2]
 					player.position = values[1]

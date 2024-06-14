@@ -7,6 +7,10 @@ extends Node
 @onready var player_button : Button = $"Player Button"
 @onready var disconnect_button : Button = $"Disconnect Button"
 
+func _ready():
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	disconnect_button.hide()
+
 func _on_server_button_button_down():
 	print("Starting as server...")
 	network_manager.start_server()
@@ -33,7 +37,5 @@ func hide_startup_button(hide : bool):
 		disconnect_button.hide()
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
-func _ready():
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	disconnect_button.hide()
+
 	

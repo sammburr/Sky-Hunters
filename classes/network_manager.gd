@@ -13,8 +13,14 @@ var peer : ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 func start_server():
 	if not check_multiplayer_peer_start():
 		return
+	
+	# Set the tick rate of the server
+	Engine.max_fps = 60
+	
 	peer.create_server(net_port, net_max_clients)
 	multiplayer.multiplayer_peer = peer
+	
+	print("Started listnening on port ", net_port)
 	
 	player_manager.add_local_player()
 	
@@ -56,6 +62,8 @@ func _ready():
 	multiplayer.peer_connected.connect(on_peer_connected)
 	multiplayer.peer_disconnected.connect(on_peer_disconnect)
 	multiplayer.server_disconnected.connect(on_server_disconnect)
+	
+	# start_server() # FOR HEADLESS SERVER
 
 func check_multiplayer_peer_start() -> bool:
 	var can_start_new_conn = true
