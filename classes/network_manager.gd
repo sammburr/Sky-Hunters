@@ -1,7 +1,7 @@
 class_name NetworkManager
 extends Node
 
-@export var net_ip := "127.0.0.1"
+@export var net_ip := "127.0.0.1" #"51.155.8.241" #
 @export var net_port := 2543
 @export var net_max_clients := 20
 
@@ -13,9 +13,6 @@ var peer : ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 func start_server():
 	if not check_multiplayer_peer_start():
 		return
-	
-	# Set the tick rate of the server
-	Engine.max_fps = 60
 	
 	peer.create_server(net_port, net_max_clients)
 	multiplayer.multiplayer_peer = peer
@@ -59,6 +56,10 @@ func on_server_disconnect():
 	disconnect_peer()
 
 func _ready():
+	
+	# Set the tick rate of the server
+	Engine.max_fps = 60
+	
 	multiplayer.peer_connected.connect(on_peer_connected)
 	multiplayer.peer_disconnected.connect(on_peer_disconnect)
 	multiplayer.server_disconnected.connect(on_server_disconnect)

@@ -2,7 +2,7 @@ class_name Player
 extends CharacterBody3D
 
 var jump = 3.0
-var speed = 500
+var speed = 5
 var ground_dist = 0.12
 
 @onready var head : Node3D = $Head
@@ -27,10 +27,9 @@ func player_jump():
 
 func player_move(input_dir : Vector2):
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	var delta = get_physics_process_delta_time()
 
-	velocity.x = direction.x * speed * delta
-	velocity.z = direction.z * speed * delta
+	velocity.x = direction.x * speed
+	velocity.z = direction.z * speed
 	
 	velocity.z = lerp(velocity.z, 0.0, 0.5)
 	velocity.x = lerp(velocity.x, 0.0, 0.5)

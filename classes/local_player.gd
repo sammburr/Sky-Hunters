@@ -7,7 +7,7 @@ extends Player
 @onready var viewmodel : Node3D = $Head/VIEWMODEL
 
 var player_manager : PlayerManager
-var server_position : Vector3 # Position as broadcast by server
+var server_position : Vector2 # Position as broadcast by server
 var origin_viewmodel : Vector3 # Start position of viewmodel
 
 func _ready():
@@ -52,9 +52,12 @@ func _physics_process(delta):
 		player_manager.send_rotation.rpc_id(1, rotation, head.rotation)
 		
 		# Lerp towards server position
-		position = lerp(position, server_position, 0.5)
-		if position.distance_to(server_position) < 0.01:
-			position = server_position
+		position.x = lerp(position.x, server_position.x, 0.05)
+		position.z = lerp(position.z, server_position.y, 0.05)
+		var flat_pos = Vector2(position.x, position.z)
+		if flat_pos.distance_to(server_position) < 0.01:
+			position.x = server_position.x
+			position.z = server_position.y
 
 	# Apply viewmodel swing acording to input_dir
 	viewmodel.position.x -= input_dir.x * delta * viewmodel_swing * 4.0

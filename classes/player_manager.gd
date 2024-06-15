@@ -3,7 +3,8 @@
 class_name PlayerManager
 extends Node
 
-var players = {}
+# [ [ player_name, player_pos, player_rotation, player_head_rotation ], ... ]
+var players = []
 
 @export var network_player : PackedScene
 @export var local_player : PackedScene
@@ -39,22 +40,30 @@ func add_player(player_inst):
 	
 	# Only need to work out starting positions as the server, then this is broadcast to clients
 	if multiplayer.is_server():
-		for player : Node3D in players.keys():
-			while player.position.distance_to(player_inst.position) <= 2.0:
-				player_inst.position += Vector3(2.0,0.0,0.0)
+		for player_info : Array in players:
+			var player_name = player_info[0]
+			for player : Node3D in get_children():
+				if player.name == player_name:
+					while player.position.distance_to(player_inst.position) <= 2.0:
+						player_inst.position += Vector3(2.0,0.0,0.0)
 	
-	var values = [player_inst.name, player_inst.position, player_inst.rotation, player_inst.head.rotation, 0.0]
-	players[player_inst] = values
+	var values = [player_inst.name] # Just init with empty player info as we will update this every server tick
+	players.append(values)
 
 func remove_network_player(id : int):
 	print("Removing player ", id, "...")
-	for player : Node3D in players.keys():
-		if player.name == str(id):
-			remove_child(player)
-			players.erase(player)
+	var i = 0
+	for player_info : Array in players:
+		var player_name = player_info[0]
+		for player : Node3D in get_children():
+			if player.name == player_name:
+				if player.name == str(id):
+					remove_child(player)
+					players.remove_at(i)
+		i += 1
 
 func clear_players():
-	players = {}
+	players = []
 	
 	for child in get_children():
 		child.queue_free()
@@ -65,30 +74,47 @@ func _process(_delta):
 	
 	if multiplayer.is_server():
 		update_player_infos()
-		send_player_infos.rpc(players)
-		
+		for player_info in players:
+			for player in get_children():
+				if player_info[0] == player.name && player is NetworkedPlayer:
+					reflect_pos.rpc_id(player.name.to_int(), Vector2(player_info[1].x, player_info[1].z))
+				elif player is NetworkedPlayer:
+					send_player_info.rpc_id(player.name.to_int(), player_info[0], player_info[1], player_info[2], player_info[3])
 
 func update_player_infos():
-	for player : Player in players.keys():												   # TODO: make blend value better
-		var values = [player.name, player.position, player.rotation, player.head.rotation, player.velocity.length()/5.0]
-		players[player] = values
+	
+	var player_rot : float
+	var player_head_rot : float
+	
+	var i = 0
+	for player_info : Array in players:
+		var player_name = player_info[0]
+		for player : Node3D in get_children():
+			if player.name == player_name:
+				
+				player_rot = player.rotation.y
+				player_head_rot = player.head.rotation.x
+				
+				var values = [player.name, player.position, player_rot, player_head_rot]
+				players[i] = values
+				break
+		i += 1
 
 @rpc("authority", "call_remote", "unreliable_ordered")
-func send_player_infos(player_infos : Dictionary):
-	
-	# player_infos :																			  use to blend walk anim
-	# { player_object_id : [ player_name, player_position, player_rotation, player_head_rotation, player_walk_blend_value ], ... }
-	
-	for player in players.keys():
-		for values in player_infos.values():
-			if values[0] == player.name:
-				if player is LocalPlayer:
-					player.server_position = values[1]
-				elif player is NetworkedPlayer:
-					player.move_blend_value = values[4]
-					player.head.rotation = values[3]
-					player.rotation = values[2]
-					player.position = values[1]
+func reflect_pos(player_pos : Vector2): # Send the flat position to clients
+	for player : Player in get_children():
+		if player is LocalPlayer:
+			player.server_position = player_pos
+
+@rpc("authority", "call_remote", "unreliable_ordered")
+func send_player_info(player_name : String, player_pos : Vector3, player_rotation : float, player_head_rotation : float):
+	# [  player_name, player_pos, player_rotation,   ]
+
+	for player : Player in get_children():
+		if player.name == player_name:
+			player.head.rotation.x = player_head_rotation
+			player.rotation.y = player_rotation
+			player.position = player_pos
 
 # Send to server only!
 @rpc("any_peer", "call_remote", "unreliable_ordered")
@@ -99,7 +125,7 @@ func send_input_direction(input_dirs : Array):
 	
 	var sender = multiplayer.get_remote_sender_id()
 	
-	for player in players:
+	for player in get_children():
 		if str(sender) == player.name:
 			if player is NetworkedPlayer:
 				player.input_dir = Vector2(input_dirs[0], input_dirs[1])
@@ -113,7 +139,7 @@ func send_rotation(rot : Vector3, head_rot : Vector3):
 	
 	var sender = multiplayer.get_remote_sender_id()
 	
-	for player in players:
+	for player in get_children():
 		if str(sender) == player.name:
 			if player is NetworkedPlayer:
 				player.head.rotation = head_rot
