@@ -30,8 +30,8 @@ node_connections = [&"output", 0, &"Walking"]
 [node name="FISHMAN" instance=ExtResource("1_y80xc")]
 
 [node name="Skeleton3D" parent="Armature" index="0"]
-bones/0/position = Vector3(0.627324, 12.287, 0.141648)
-bones/1/position = Vector3(-3.17002e-16, 0.929568, -0.0545004)
+bones/0/position = Vector3(1.47605, 12.6886, 0.141648)
+bones/1/position = Vector3(-3.16263e-16, 0.950781, -0.0545004)
 bones/1/rotation = Quaternion(-0.0313916, -2.65087e-23, -1.74258e-17, 0.999507)
 bones/1/scale = Vector3(1, 1, 1)
 bones/4/rotation = Quaternion(0.0313916, 5.27329e-23, 1.74258e-17, 0.999507)

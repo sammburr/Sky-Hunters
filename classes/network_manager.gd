@@ -1,7 +1,7 @@
 class_name NetworkManager
 extends Node
 
-@export var net_ip := "127.0.0.1" #"51.155.8.241" #
+@export var net_ip := "51.155.8.241" #"127.0.0.1"
 @export var net_port := 2543
 @export var net_max_clients := 20
 

@@ -5,7 +5,6 @@ extends Player
 @export var viewmodel_swing = 0.5
 
 @onready var viewmodel : Node3D = $Head/VIEWMODEL
-@onready var look_ray_cast : RayCast3D = $Head/Look
 
 var player_manager : PlayerManager
 var server_position : Vector2 # Position as broadcast by server
@@ -24,12 +23,24 @@ func _unhandled_input(event):
 		viewmodel.position.x += -event.relative.x * get_process_delta_time() * viewmodel_swing
 	else:
 		var interaction : PWInterface = can_interact()
+				
 		if Input.is_action_just_pressed("interact") && interaction:
-			interaction.use()
+			if current_input_type == InputType.REG:
+				if interaction is SpeedController:
+					input_target = interaction
+					current_input_type = InputType.ONEDIM
+			else:
+				current_input_type = InputType.REG
 
 func _physics_process(delta):
 
 	apply_gravity()
+
+	if current_input_type == InputType.ONEDIM && input_target is SpeedController:
+		if Input.is_action_pressed("move_forward"):
+			input_target.increase_value()
+		elif Input.is_action_pressed("move_back"):
+			input_target.decrease_value()
 
 	if Input.is_action_just_pressed("ui_cancel"):
 		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
@@ -42,7 +53,7 @@ func _physics_process(delta):
 		player_jump()
 	
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
-	
+
 	if not multiplayer.is_server():
 		# TODO: make cleaner here...
 		
@@ -52,6 +63,9 @@ func _physics_process(delta):
 			input_dirs.append(1.0)
 		else:
 			input_dirs.append(0.0)
+		
+		if Input.is_action_just_pressed("interact"):
+			player_manager.try_interact.rpc_id(1)
 		
 		player_manager.send_input_direction.rpc_id(1, input_dirs)
 		player_manager.send_rotation.rpc_id(1, rotation, head.rotation)
@@ -72,9 +86,3 @@ func _physics_process(delta):
 
 	player_move(input_dir)
 
-# Check if player is looking at something to interact with
-# returns the node to interact with
-func can_interact():
-	if look_ray_cast.is_colliding() && look_ray_cast.get_collider() is PWInterface:
-		return look_ray_cast.get_collider()
-	return null

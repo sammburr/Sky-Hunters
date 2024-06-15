@@ -7,20 +7,20 @@
 [ext_resource type="Script" path="res://classes/player_manager.gd" id="4_o8jdq"]
 [ext_resource type="PackedScene" uid="uid://d2ag6u8ncud5v" path="res://scenes/networked_player.tscn" id="5_gxny0"]
 [ext_resource type="PackedScene" uid="uid://bg510cumyofsy" path="res://scenes/local_player.tscn" id="6_5d4gc"]
-[ext_resource type="PackedScene" uid="uid://ru84j6ayc0p" path="res://scenes/speed_controller.tscn" id="8_f3ors"]
+[ext_resource type="PackedScene" uid="uid://cp6m6if8051rv" path="res://scenes/speed_control.tscn" id="8_hfvam"]
 
 [node name="Main" type="Node3D"]
 
 [node name="World" type="Node" parent="."]
+
+[node name="SpeedControl" parent="World" instance=ExtResource("8_hfvam")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.661366, -1.14189, -0.189941)
 
 [node name="Player" parent="World" instance=ExtResource("5_gxny0")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -24.5961, -0.164346, -22.4034)
 
 [node name="test level" parent="World" instance=ExtResource("1_e7bh6")]
 transform = Transform3D(6.21786, 0, 0, 0, 6.21786, 0, 0, 0, 6.21786, 0, -1.15036, 0)
-
-[node name="SpeedController" parent="World" instance=ExtResource("8_f3ors")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.37158, -1.14189, -1.23655)
 
 [node name="Enviroment" parent="World" instance=ExtResource("1_wwjqv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.67577, 0)

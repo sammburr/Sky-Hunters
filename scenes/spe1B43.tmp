@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://cp6m6if8051rv"]
+
+[ext_resource type="PackedScene" uid="uid://dr61bhnvnwbtj" path="res://assets/blimp/speed control.glb" id="1_ew1ai"]
+
+[sub_resource type="GDScript" id="GDScript_3i161"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uoq0d"]
+size = Vector3(0.660706, 1, 0.685303)
+
+[node name="SpeedControl" type="StaticBody3D"]
+script = SubResource("GDScript_3i161")
+
+[node name="speed control" parent="." instance=ExtResource("1_ew1ai")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0115662, 1, -0.0032959)
+shape = SubResource("BoxShape3D_uoq0d")

@@ -75,9 +75,9 @@ func _process(_delta):
 	if multiplayer.is_server():
 		update_player_infos()
 		for player_info in players:
-			for player in get_children():
+			for player : Player in get_children():
 				if player_info[0] == player.name && player is NetworkedPlayer:
-					reflect_pos.rpc_id(player.name.to_int(), Vector2(player_info[1].x, player_info[1].z))
+					reflect_info.rpc_id(player.name.to_int(), Vector2(player_info[1].x, player_info[1].z), player.current_input_type)
 				elif player is NetworkedPlayer:
 					send_player_info.rpc_id(player.name.to_int(), player_info[0], player_info[1], player_info[2], player_info[3])
 
@@ -89,7 +89,7 @@ func update_player_infos():
 	var i = 0
 	for player_info : Array in players:
 		var player_name = player_info[0]
-		for player : Node3D in get_children():
+		for player : Player in get_children():
 			if player.name == player_name:
 				
 				player_rot = player.rotation.y
@@ -101,14 +101,15 @@ func update_player_infos():
 		i += 1
 
 @rpc("authority", "call_remote", "unreliable_ordered")
-func reflect_pos(player_pos : Vector2): # Send the flat position to clients
+func reflect_info(player_pos : Vector2, player_input_type : Player.InputType): # Send the flat position to clients
 	for player : Player in get_children():
 		if player is LocalPlayer:
+			player.current_input_type = player_input_type
 			player.server_position = player_pos
 
 @rpc("authority", "call_remote", "unreliable_ordered")
 func send_player_info(player_name : String, player_pos : Vector3, player_rotation : float, player_head_rotation : float):
-	# [  player_name, player_pos, player_rotation,   ]
+	# [  player_name, player_pos, player_rotation, player_head_rotation, input_type ]
 
 	for player : Player in get_children():
 		if player.name == player_name:
@@ -144,3 +145,15 @@ func send_rotation(rot : Vector3, head_rot : Vector3):
 			if player is NetworkedPlayer:
 				player.head.rotation = head_rot
 				player.rotation = rot
+
+@rpc("any_peer", "call_remote", "reliable")
+func try_interact():
+	if not multiplayer.is_server():
+		return
+	
+	var sender = multiplayer.get_remote_sender_id()
+	
+	for player in get_children():
+		if str(sender) == player.name:
+			if player is NetworkedPlayer:
+				player.did_just_interact = true
