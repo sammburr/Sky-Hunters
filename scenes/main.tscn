@@ -1,36 +1,29 @@
 [gd_scene load_steps=9 format=3 uid="uid://c6tw4q6mxw551"]
 
+[ext_resource type="PackedScene" uid="uid://c3ftcgwxuihow" path="res://scenes/levels/test_level.tscn" id="1_e7bh6"]
 [ext_resource type="PackedScene" uid="uid://ta7fq8gvmlyf" path="res://scenes/enviroment.tscn" id="1_wwjqv"]
 [ext_resource type="Script" path="res://classes/ui_manager.gd" id="2_oovj8"]
 [ext_resource type="Script" path="res://classes/network_manager.gd" id="3_07lih"]
 [ext_resource type="Script" path="res://classes/player_manager.gd" id="4_o8jdq"]
 [ext_resource type="PackedScene" uid="uid://d2ag6u8ncud5v" path="res://scenes/networked_player.tscn" id="5_gxny0"]
 [ext_resource type="PackedScene" uid="uid://bg510cumyofsy" path="res://scenes/local_player.tscn" id="6_5d4gc"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g3xqe"]
-albedo_color = Color(0, 1, 0, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gj64k"]
-albedo_color = Color(0, 1, 0, 1)
+[ext_resource type="PackedScene" uid="uid://ru84j6ayc0p" path="res://scenes/speed_controller.tscn" id="8_f3ors"]
 
 [node name="Main" type="Node3D"]
 
 [node name="World" type="Node" parent="."]
 
-[node name="Floor" type="CSGBox3D" parent="World"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0305023, -2.05066, -0.0464783)
-use_collision = true
-size = Vector3(16.4959, 0.0847168, 13.1513)
-material = SubResource("StandardMaterial3D_g3xqe")
+[node name="Player" parent="World" instance=ExtResource("5_gxny0")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -24.5961, -0.164346, -22.4034)
 
-[node name="Green Screen" type="CSGBox3D" parent="World"]
-transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 7.40277, 2.28995, -0.0464783)
-use_collision = true
-size = Vector3(8.79878, 0.0847168, 13.1513)
-material = SubResource("StandardMaterial3D_gj64k")
+[node name="test level" parent="World" instance=ExtResource("1_e7bh6")]
+transform = Transform3D(6.21786, 0, 0, 0, 6.21786, 0, 0, 0, 6.21786, 0, -1.15036, 0)
+
+[node name="SpeedController" parent="World" instance=ExtResource("8_f3ors")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.37158, -1.14189, -1.23655)
 
 [node name="Enviroment" parent="World" instance=ExtResource("1_wwjqv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.41156, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.67577, 0)
 
 [node name="UI" type="Node" parent="."]
 script = ExtResource("2_oovj8")

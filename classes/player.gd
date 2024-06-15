@@ -2,7 +2,7 @@ class_name Player
 extends CharacterBody3D
 
 var jump = 3.0
-var speed = 5
+var speed = 13
 var ground_dist = 0.12
 
 @onready var head : Node3D = $Head

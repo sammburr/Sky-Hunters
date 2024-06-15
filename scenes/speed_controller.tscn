@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://ru84j6ayc0p"]
+
+[ext_resource type="PackedScene" uid="uid://wtrr2wtdcy0i" path="res://scenes/pw_interface.tscn" id="1_gs6vf"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_jhpgt"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_x460q"]
+size = Vector3(0.304749, 0.998596, 0.374268)
+
+[node name="SpeedController" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.31519, 0, 0, 0, 1, 0, 0, 0, 0.365416, 0, 0.495937, 0)
+mesh = SubResource("BoxMesh_jhpgt")
+
+[node name="PwInterface" parent="." instance=ExtResource("1_gs6vf")]
+transform = Transform3D(0.382813, 0, 0, 0, 0.382813, 0, 0, 0, 0.382813, 0, 0.997254, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00221187, 0.492035, 0.00109863)
+shape = SubResource("BoxShape3D_x460q")

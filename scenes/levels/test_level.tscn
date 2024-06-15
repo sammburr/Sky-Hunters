@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3ftcgwxuihow"]
+
+[ext_resource type="PackedScene" uid="uid://d0uq4q7i4qawe" path="res://assets/test level/test level.glb" id="1_td6ft"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5en7e"]
+size = Vector3(21.1179, 0.0802002, 21.1093)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_oy4py"]
+size = Vector3(1.99438, 1.79736, 2.00464)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uhfey"]
+size = Vector3(1.10693, 1.61145, 5.70355)
+
+[node name="test level" instance=ExtResource("1_td6ft")]
+
+[node name="Collision" type="StaticBody3D" parent="." index="6"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collision" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0033493, -0.0387385, 0.00387573)
+shape = SubResource("BoxShape3D_5en7e")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Collision" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.77263, 0.359943, -4.72734)
+shape = SubResource("BoxShape3D_oy4py")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="Collision" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.28972, 0.665668, 0.0838728)
+shape = SubResource("BoxShape3D_uhfey")
