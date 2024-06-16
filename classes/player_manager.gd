@@ -5,6 +5,7 @@ extends Node
 
 # [ [ player_name, player_pos, player_rotation, player_head_rotation ], ... ]
 var players = []
+var updated_players = [] # Names of player who have updated their state in the last tick
 
 @export var network_player : PackedScene
 @export var local_player : PackedScene
@@ -64,6 +65,7 @@ func remove_network_player(id : int):
 
 func clear_players():
 	players = []
+	updated_players = []
 	
 	for child in get_children():
 		child.queue_free()
@@ -74,12 +76,16 @@ func _process(_delta):
 	
 	if multiplayer.is_server():
 		update_player_infos()
+		
 		for player_info in players:
-			for player : Player in get_children():
+			var i = 0
+			for player : Player in updated_players:
+				updated_players.remove_at(i)
 				if player_info[0] == player.name && player is NetworkedPlayer:
-					reflect_info.rpc_id(player.name.to_int(), Vector2(player_info[1].x, player_info[1].z), player.current_input_type)
+						reflect_info.rpc_id(player.name.to_int(), Vector2(player_info[1].x, player_info[1].z), player.current_input_type)
 				elif player is NetworkedPlayer:
 					send_player_info.rpc_id(player.name.to_int(), player_info[0], player_info[1], player_info[2], player_info[3])
+				i += 1
 
 func update_player_infos():
 	
@@ -95,9 +101,8 @@ func update_player_infos():
 				player_rot = player.rotation.y
 				player_head_rot = player.head.rotation.x
 				
-				var values = [player.name, player.position, player_rot, player_head_rot]
+				var values = [player.name, player.position, player_rot, player_head_rot, player.current_input_type]
 				players[i] = values
-				break
 		i += 1
 
 @rpc("authority", "call_remote", "unreliable_ordered")
@@ -131,6 +136,8 @@ func send_input_direction(input_dirs : Array):
 			if player is NetworkedPlayer:
 				player.input_dir = Vector2(input_dirs[0], input_dirs[1])
 				player.input_jump = input_dirs[2]
+	
+				updated_players.append(player)
 
 # Send to server only!
 @rpc("any_peer", "call_remote", "reliable")
@@ -146,6 +153,8 @@ func send_rotation(rot : Vector3, head_rot : Vector3):
 				player.head.rotation = head_rot
 				player.rotation = rot
 
+				updated_players.append(player)
+
 @rpc("any_peer", "call_remote", "reliable")
 func try_interact():
 	if not multiplayer.is_server():
@@ -157,3 +166,5 @@ func try_interact():
 		if str(sender) == player.name:
 			if player is NetworkedPlayer:
 				player.did_just_interact = true
+
+				updated_players.append(player)
