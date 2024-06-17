@@ -21,26 +21,10 @@ func _unhandled_input(event):
 		# Apply viewmodel swing
 		viewmodel.position.y += event.relative.y * get_process_delta_time() * viewmodel_swing
 		viewmodel.position.x += -event.relative.x * get_process_delta_time() * viewmodel_swing
-	else:
-		var interaction : PWInterface = can_interact()
-				
-		if Input.is_action_just_pressed("interact") && interaction:
-			if current_input_type == InputType.REG:
-				if interaction is SpeedController:
-					input_target = interaction
-					current_input_type = InputType.ONEDIM
-			else:
-				current_input_type = InputType.REG
 
 func _physics_process(delta):
 
 	apply_gravity()
-
-	if current_input_type == InputType.ONEDIM && input_target is SpeedController:
-		if Input.is_action_pressed("move_forward"):
-			input_target.increase_value()
-		elif Input.is_action_pressed("move_back"):
-			input_target.decrease_value()
 
 	if Input.is_action_just_pressed("ui_cancel"):
 		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
@@ -51,6 +35,10 @@ func _physics_process(delta):
 	# Jumping
 	if Input.is_action_just_pressed("ui_accept") and is_grounded:
 		player_jump()
+	
+	# Interacting
+	if Input.is_action_just_pressed("interact"):
+		interact()
 	
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 

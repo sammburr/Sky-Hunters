@@ -1,10 +1,12 @@
 class_name SpeedController
 extends PWInterface
 
-var value : float = 0.0
-var incremenet : float = 0.1
-
 @onready var control : Node3D = $"speed control/Cube_001"
+
+func _ready():
+	input_type = Player.InputType.ONEDIM_WS
+	value = 0.0
+	incremenet = 0.1 
 
 func increase_value():
 	value += incremenet

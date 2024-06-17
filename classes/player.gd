@@ -12,8 +12,9 @@ var ground_dist = 0.12
 var is_grounded : bool = false
 
 enum InputType {
-	REG,
-	ONEDIM
+	REG,		# No input target, just walking around
+	ONEDIM_WS,  # Has an input target and listen to W and S keys
+	ONEDIM_AD   # || listen to A and D keys
 }
 
 var current_input_type := InputType.REG
@@ -35,7 +36,13 @@ func player_jump():
 	velocity.y += jump
 
 func player_move(input_dir : Vector2):
-	if not current_input_type == InputType.REG:
+	if current_input_type != InputType.REG:
+		match current_input_type:
+			
+			InputType.ONEDIM_WS:
+				pw_interact_1d(input_dir.y)
+			InputType.ONEDIM_AD:
+				pw_interact_1d(input_dir.x)
 		return
 	
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
@@ -52,5 +59,20 @@ func player_move(input_dir : Vector2):
 # returns the node to interact with
 func can_interact():
 	if look_ray_cast.is_colliding() && look_ray_cast.get_collider() is PWInterface:
-		return look_ray_cast.get_collider()
-	return null
+		input_target = look_ray_cast.get_collider()
+		return true
+	return false
+
+func interact():
+	if current_input_type != InputType.REG: # Meaning there is already an input target 'locked'
+		current_input_type = InputType.REG  # Switch back to regural input, not talking to an input target
+		return
+	
+	if can_interact():
+		current_input_type = input_target.input_type
+
+func pw_interact_1d(val : float):
+	if val < 0:
+		input_target.increase_value()
+	elif val > 0:
+		input_target.decrease_value()

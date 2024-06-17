@@ -1,10 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bl3b4i3glhcjv"]
+[gd_scene load_steps=3 format=3 uid="uid://bl3b4i3glhcjv"]
 
 [ext_resource type="Script" path="res://classes/blimp.gd" id="1_i4025"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_2cfdk"]
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_s7bf2"]
 
 [node name="BlimpTest" type="CharacterBody3D"]
 script = ExtResource("1_i4025")
@@ -13,7 +11,3 @@ script = ExtResource("1_i4025")
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 mesh = SubResource("CylinderMesh_2cfdk")
 skeleton = NodePath("")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
-shape = SubResource("CylinderShape3D_s7bf2")

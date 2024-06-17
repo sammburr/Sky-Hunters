@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c6tw4q6mxw551"]
+[gd_scene load_steps=11 format=3 uid="uid://c6tw4q6mxw551"]
 
 [ext_resource type="PackedScene" uid="uid://c3ftcgwxuihow" path="res://scenes/levels/test_level.tscn" id="1_e7bh6"]
 [ext_resource type="PackedScene" uid="uid://ta7fq8gvmlyf" path="res://scenes/enviroment.tscn" id="1_wwjqv"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://d2ag6u8ncud5v" path="res://scenes/networked_player.tscn" id="5_gxny0"]
 [ext_resource type="PackedScene" uid="uid://bl3b4i3glhcjv" path="res://scenes/test_vehical.tscn" id="5_sbgtp"]
 [ext_resource type="PackedScene" uid="uid://bg510cumyofsy" path="res://scenes/local_player.tscn" id="6_5d4gc"]
+[ext_resource type="PackedScene" uid="uid://pw42s2khmj30" path="res://scenes/steer_control.tscn" id="6_6af41"]
 [ext_resource type="PackedScene" uid="uid://cp6m6if8051rv" path="res://scenes/speed_control.tscn" id="8_hfvam"]
 
 [node name="Main" type="Node3D"]
@@ -26,9 +27,13 @@ transform = Transform3D(6.21786, 0, 0, 0, 6.21786, 0, 0, 0, 6.21786, 0, -1.15036
 [node name="Enviroment" parent="World" instance=ExtResource("1_wwjqv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.67577, 0)
 
-[node name="TestVehical" parent="World" node_paths=PackedStringArray("speed_control") instance=ExtResource("5_sbgtp")]
+[node name="TestVehical" parent="World" node_paths=PackedStringArray("speed_control", "steer_control") instance=ExtResource("5_sbgtp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.01459, 1.22361, -0.0222154)
 speed_control = NodePath("../SpeedControl")
+steer_control = NodePath("../SteerControl")
+
+[node name="SteerControl" parent="World" instance=ExtResource("6_6af41")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.587707, -1.14189, -1.61366)
 
 [node name="UI" type="Node" parent="."]
 script = ExtResource("2_oovj8")

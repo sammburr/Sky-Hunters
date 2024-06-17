@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://pw42s2khmj30"]
+
+[ext_resource type="Script" path="res://classes/steer_control.gd" id="1_gx61k"]
+[ext_resource type="PackedScene" uid="uid://306yxtpiis" path="res://assets/blimp/steer_control.glb" id="2_h13kk"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uoq0d"]
+size = Vector3(0.660706, 1, 0.685303)
+
+[node name="SteerControl" type="StaticBody3D"]
+script = ExtResource("1_gx61k")
+
+[node name="steer_control" parent="." instance=ExtResource("2_h13kk")]
+transform = Transform3D(0.298278, 0, 0, 0, 0.298278, 0, 0, 0, 0.298278, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0115662, 1, -0.0032959)
+shape = SubResource("BoxShape3D_uoq0d")

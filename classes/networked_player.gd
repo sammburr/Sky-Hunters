@@ -35,22 +35,8 @@ func _physics_process(delta):
 	else:
 		
 		if did_just_interact:
-			var interaction : PWInterface = can_interact()
-			if interaction is SpeedController:
-				if current_input_type == InputType.REG:
-					current_input_type = InputType.ONEDIM
-				else:
-					current_input_type = InputType.REG
-			
+			interact()
 			did_just_interact = false
-		
-		if not current_input_type == InputType.REG:
-			var interaction : PWInterface = can_interact()
-			if interaction is SpeedController:
-				if input_dir.y < 0.0:
-					interaction.increase_value()
-				elif input_dir.y > 0.0:
-					interaction.decrease_value()
 		
 		# Update animation tree (server)
 		animation_tree.set("parameters/Walking/blend_position", velocity.length() / 5.0)
