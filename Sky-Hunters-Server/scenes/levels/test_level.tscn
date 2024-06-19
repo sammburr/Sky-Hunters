@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwga3iq4bemjj"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vaprl"]
+size = Vector3(192.639, 1.271, 124.149)
+
+[node name="TestLevel" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.813026, -0.396619, 0.426243, 0.573433, -0.418707, 0.704172, -0.100817, 0.816932, 0.567854, 0, 18.8791, 0)
+shadow_enabled = true
+
+[node name="Floor" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.05184, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+transform = Transform3D(0.91496, 0, -0.403545, 0, 1, 0, 0.403545, 0, 0.91496, 14.675, 0.441, 14.053)
+shape = SubResource("BoxShape3D_vaprl")

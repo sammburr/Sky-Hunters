@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="LogFormatting" load_steps=2 format=3 uid="uid://bbalhj6bkp6hf"]
+
+[ext_resource type="Script" path="res://classes/logger/logger_formatting.gd" id="1_15hrx"]
+
+[resource]
+script = ExtResource("1_15hrx")
+weight = 1
+text_color = "White"
+background_color = "#00000000"
+font_size = "20"
