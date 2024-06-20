@@ -34,6 +34,9 @@ func _unhandled_input(event):
 		
 		has_mouse_moved = true
 
+	else:
+		if Input.is_action_just_pressed("interact"):
+			master.network_manager.try_interact.rpc_id(1)
 
 func _process(_delta):
 	

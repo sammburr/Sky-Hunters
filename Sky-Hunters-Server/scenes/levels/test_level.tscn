@@ -1,7 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://dwga3iq4bemjj"]
+[gd_scene load_steps=5 format=3 uid="uid://dwga3iq4bemjj"]
+
+[ext_resource type="Script" path="res://classes/blimp/blimp_spawn_point.gd" id="1_jue62"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vaprl"]
 size = Vector3(192.639, 1.271, 124.149)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gv453"]
+size = Vector3(192.639, 1.271, 124.149)
+
+[sub_resource type="SphereMesh" id="SphereMesh_ljw0r"]
 
 [node name="TestLevel" type="Node3D"]
 
@@ -15,3 +22,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.05184, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
 transform = Transform3D(0.91496, 0, -0.403545, 0, 1, 0, 0.403545, 0, 0.91496, 14.675, 0.441, 14.053)
 shape = SubResource("BoxShape3D_vaprl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(0.91496, 0, -0.403545, 0, 1, 0, 0.403545, 0, 0.91496, 14.675, 0.441, 14.053)
+mesh = SubResource("BoxMesh_gv453")
+
+[node name="BlimpSpawnPoint" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.933662, 0)
+script = ExtResource("1_jue62")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BlimpSpawnPoint"]
+mesh = SubResource("SphereMesh_ljw0r")

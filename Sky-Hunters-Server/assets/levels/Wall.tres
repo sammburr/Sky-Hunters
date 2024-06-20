@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://day7fyeg47r84"]
+
+[resource]
+resource_name = "Wall"
+cull_mode = 2
+albedo_color = Color(0.470076, 0.470076, 0.470075, 1)

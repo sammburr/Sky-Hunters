@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bo8s50d56mlxb"]
+
+[resource]
+resource_name = "Building"
+cull_mode = 2
+albedo_color = Color(0.66816, 0.537991, 0.408311, 1)

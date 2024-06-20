@@ -3,3 +3,4 @@ extends Resource
 
 
 @export var speed : float
+#TODO: interaction range

@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://ciyljsx7vhph3"]
+
+[ext_resource type="Script" path="res://classes/blimp/blimp.gd" id="1_ojgcs"]
+[ext_resource type="PackedScene" uid="uid://c6fjhy8vkhtq0" path="res://scenes/blimp/helm_control.tscn" id="2_1f3a3"]
+[ext_resource type="PackedScene" uid="uid://5naxk7gmda0b" path="res://scenes/blimp/steam_control.tscn" id="2_aunty"]
+
+[node name="Blimp" type="CharacterBody3D" node_paths=PackedStringArray("helm_control", "steam_control")]
+script = ExtResource("1_ojgcs")
+helm_control = NodePath("HelmControl")
+steam_control = NodePath("SteamControl")
+
+[node name="SteamControl" parent="." instance=ExtResource("2_aunty")]
+transform = Transform3D(0.176415, 0, -0.0357477, 0, 0.18, 0, 0.0357477, 0, 0.176415, 0.674324, 0, 0.0828376)
+
+[node name="HelmControl" parent="." instance=ExtResource("2_1f3a3")]
+transform = Transform3D(0.179962, 0, 0, 0, 0.179962, 0, 0, 0, 0.179962, 0, 0, 0)

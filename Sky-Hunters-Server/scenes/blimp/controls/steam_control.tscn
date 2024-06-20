@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://chesmh23vpjg7"]
+
+[ext_resource type="Script" path="res://classes/blimp/controls/vehical_control.gd" id="1_rosde"]
+[ext_resource type="PackedScene" uid="uid://cdqnxehyu0sna" path="res://assets/blimp/steam_control.glb" id="2_r0bp4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rfewy"]
+size = Vector3(0.616943, 1.51005, 1.59857)
+
+[node name="SteamControl" type="StaticBody3D" node_paths=PackedStringArray("stand_target")]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_rosde")
+min_value = -20.0
+max_value = 20.0
+increment = 1.0
+input_type = 1
+stand_target = NodePath("StandTarget")
+
+[node name="steam_control" parent="." instance=ExtResource("2_r0bp4")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0505358, 3.00781, 0.00430301)
+shape = SubResource("BoxShape3D_rfewy")
+
+[node name="StandTarget" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 2)

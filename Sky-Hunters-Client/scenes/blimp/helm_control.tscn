@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6fjhy8vkhtq0"]
+
+[ext_resource type="Script" path="res://classes/blimp/controls/helm_control.gd" id="1_38jl8"]
+[ext_resource type="PackedScene" uid="uid://cg78vtdp83a87" path="res://assets/blimp/helm_control.glb" id="1_qapgj"]
+
+[node name="HelmControl" type="StaticBody3D"]
+script = ExtResource("1_38jl8")
+
+[node name="helm_control" parent="." instance=ExtResource("1_qapgj")]

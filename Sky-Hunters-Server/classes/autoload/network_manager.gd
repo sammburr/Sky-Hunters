@@ -15,7 +15,8 @@ var max_clients : int = 64
 # Channels
 # 1 : Player Info
 # 2 : Level Info
-var channels : int = 2
+# 3 : Blimp Info
+var channels : int = 3
 
 var did_just_connect : bool = false
 
@@ -77,6 +78,14 @@ func set_player_input_map(map : PackedByteArray):
 	# Logger.log(Helpers.byte_as_binary(map[2]))
 
 
+@rpc("any_peer", "call_remote", "reliable", 1)
+func try_interact():
+	Logger.log("Try interact")
+	
+	var sender = multiplayer.get_remote_sender_id()
+	master.player_manager.try_interact(sender)
+
+
 @rpc("authority", "call_remote", "reliable", 2)
 func change_level(_level_info : Dictionary):
 	pass
@@ -90,6 +99,12 @@ func mirror_players(_dict : Dictionary):
 # PackedFloat32Array represents:
 # [ | posx | , | posy |, | posz |]
 
-@rpc("authority", "call_local", "unreliable_ordered", 1)
+@rpc("authority", "call_remote", "unreliable_ordered", 1)
 func mirror_player_transform(_id : int, _map : PackedByteArray):
+	pass
+
+
+# [ helm_value, steam_value, air_value, | posx, posx |, ..., | roty, roty | ]
+@rpc("authority", "call_remote", "unreliable_ordered", 3)
+func update_blimp(state : PackedByteArray):
 	pass

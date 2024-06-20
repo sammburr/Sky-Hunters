@@ -56,6 +56,12 @@ func move_player(id : int, input_map : PackedByteArray):
 			child.move_player(input_map)
 
 
+func try_interact(id : int):
+	for child in get_children():
+		if child is Player && child.name == str(id):
+			child.try_interact()
+
+
 func set_player_name(id : int, player_name : String):
 	players[str(id)]["name"] = player_name
 	Logger.log(players)

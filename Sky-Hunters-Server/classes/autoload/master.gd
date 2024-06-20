@@ -7,6 +7,7 @@ extends Node
 @onready var network_manager : NetworkManager = get_node("/root/NetworkManager")
 @onready var level_manager : LevelManager = get_node("/root/LevelManager")
 @onready var player_manager : PlayerManager = get_node("/root/PlayerManager")
+@onready var entity_manager : EntityManager = get_node("/root/EntityManager")
 
 
 func _ready():
@@ -20,6 +21,7 @@ func _ready():
 	
 	# Load a level
 	level_manager.load_level(level_manager.test_level)
+	entity_manager.spawn_blimp(level_manager.blimp_spawn_point)
 
 
 func _on_server_started():

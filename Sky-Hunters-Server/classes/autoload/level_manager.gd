@@ -15,6 +15,7 @@ var levels = {
 }
 
 var current_level : Node3D
+var blimp_spawn_point : BlimpSpawnPoint
 
 
 func load_level(info : LevelInfo):
@@ -25,5 +26,10 @@ func load_level(info : LevelInfo):
 			var level : PackedScene = load(levels_path + levels[level_name])
 			current_level = level.instantiate()
 			add_child(current_level)
+			
+			# Look for the blimp spawn point
+			for child in current_level.get_children():
+				if child is BlimpSpawnPoint:
+					blimp_spawn_point = child
 			
 			Logger.log("Loaded level: " + info.name)

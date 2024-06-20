@@ -9,7 +9,8 @@ extends Node
 # Channels
 # 1 : Player Info
 # 2 : Level Info
-var channels : int = 2
+# 3 : Blimp Info
+var channels : int = 3
 var player_name : String = ""
 
 
@@ -72,6 +73,11 @@ func set_player_name(_player_name : String):
 	pass
 
 
+@rpc("any_peer", "call_remote", "reliable", 1)
+func try_interact():
+	pass
+
+
 @rpc("authority", "call_remote", "reliable", 2)
 func change_level(dict : Dictionary):
 	var level_info : LevelInfo = LevelInfo.from_dict(dict)
@@ -88,7 +94,7 @@ func mirror_players(dict : Dictionary):
 # PackedFloat32Array represents:
 # [ | posx | , | posy |, | posz |]
 
-@rpc("authority", "call_local", "unreliable_ordered", 1)
+@rpc("authority", "call_remote", "unreliable_ordered", 1)
 func mirror_player_transform(id : int, map : PackedByteArray):
 	
 	var postition = Vector3(map.decode_half(0), map.decode_half(2), map.decode_half(4))
@@ -104,3 +110,19 @@ func mirror_player_transform(id : int, map : PackedByteArray):
 			if child is NetworkPlayer && child.name == str(id):
 				child.move_player(postition, head_rot, player_rot)
 
+
+# [ helm_value, steam_value, air_value, | posx, posx |, ..., | roty, roty | ]
+@rpc("authority", "call_remote", "unreliable_ordered", 3)
+func update_blimp(state : PackedByteArray):
+	var pos = Vector3(
+		state.decode_half(3),
+		state.decode_half(5),
+		state.decode_half(7)
+	)
+	var rot = state.decode_half(9)
+	
+	if !master.entity_manager.blimp_instance:
+		# Spawn blimp in
+		master.entity_manager.spawn_blimp(pos, rot)
+	
+	master.entity_manager.blimp_instance.update_blimp(state)
