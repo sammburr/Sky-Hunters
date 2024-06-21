@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://ciyljsx7vhph3"]
+[gd_scene load_steps=8 format=3 uid="uid://ciyljsx7vhph3"]
 
 [ext_resource type="Script" path="res://classes/blimp/blimp.gd" id="1_ojgcs"]
 [ext_resource type="PackedScene" uid="uid://c6fjhy8vkhtq0" path="res://scenes/blimp/helm_control.tscn" id="2_1f3a3"]
 [ext_resource type="PackedScene" uid="uid://5naxk7gmda0b" path="res://scenes/blimp/steam_control.tscn" id="2_aunty"]
+[ext_resource type="PackedScene" uid="uid://cyyofb4jy0u8c" path="res://assets/blimp/blimp.glb" id="2_dlu6h"]
 [ext_resource type="PackedScene" uid="uid://b4w3of8lypll6" path="res://scenes/blimp/air_control.tscn" id="4_tsjaa"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_4hie6"]
@@ -16,6 +17,9 @@ script = ExtResource("1_ojgcs")
 helm_control = NodePath("HelmControl")
 steam_control = NodePath("SteamControl")
 air_control = NodePath("AirControl")
+
+[node name="blimp" parent="." instance=ExtResource("2_dlu6h")]
+transform = Transform3D(-3.25443, 0, -2.84512e-07, 0, 3.25443, 0, 2.84512e-07, 0, -3.25443, 0, -2.64883, 20.909)
 
 [node name="SteamControl" parent="." instance=ExtResource("2_aunty")]
 transform = Transform3D(0.176415, 0, -0.0357477, 0, 0.18, 0, 0.0357477, 0, 0.176415, 0.674324, 0, 0.0828376)

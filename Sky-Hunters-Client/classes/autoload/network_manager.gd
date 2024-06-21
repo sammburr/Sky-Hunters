@@ -39,6 +39,7 @@ func disconnect_from_server():
 	master.ui_manager.open_main_menu()
 	master.level_manager.unload_level()
 	master.player_manager.clear_players()
+	master.entity_manager.blimp_instance = null
 	
 
 
