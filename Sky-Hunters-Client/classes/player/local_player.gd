@@ -9,9 +9,12 @@ extends CharacterBody3D
 @onready var master : Master = get_node("/root/Master")
 
 @onready var head : Node3D = $Head
+@onready var ground_check : RayCast3D = $GroundCheck
 
 
 var has_mouse_moved : bool = false
+var stuck_to : Node3D
+var stuck_to_last_pos : Vector3
 
 
 func move_player(pos : Vector3, _head_rot : float, _player_rot : float):
@@ -40,6 +43,17 @@ func _unhandled_input(event):
 
 func _process(_delta):
 	
+	if ground_check.is_colliding():
+		var collider = ground_check.get_collider()
+		if collider is Blimp:
+			stuck_to = collider
+			stuck_to_last_pos = stuck_to.position
+		
+	if stuck_to:
+		Logger.log(stuck_to.position - stuck_to_last_pos)
+		position += stuck_to.position - stuck_to_last_pos
+		stuck_to_last_pos = stuck_to.position
+	
 	var input_map = [
 		Input.is_action_pressed("move_forward"),
 		Input.is_action_pressed("move_back"),
@@ -52,28 +66,33 @@ func _process(_delta):
 		if val:
 			has_an_input = true
 	
+	var direction = Vector3()
+	
 	if has_an_input || has_mouse_moved:
 		var packed_input_map = Helpers.pack_b8(input_map)
 		var packed_byte_map = PackedByteArray([packed_input_map, 0, 0, 0, 0])
 		packed_byte_map.encode_half(1, head.rotation.x)
 		packed_byte_map.encode_half(3, rotation.y)
 
-		var direction = Vector3(
+		direction = Vector3(
 			int(input_map[1]) - int(input_map[0]),
 			0.0,
 			int(input_map[3]) - int(input_map[2])
 		)
-		predict_movement(direction)
 
 		master.network_manager.set_player_input_map.rpc_id(1, packed_byte_map)
 		has_mouse_moved = false
 
+	predict_movement(direction)
 
 func predict_movement(direction : Vector3):
 	var player_settings : Dictionary = master.player_manager.get_local_player_settings()
 	
 	if !is_on_floor():
 		velocity.y -= 9.81 * get_process_delta_time()
+	else:
+		velocity = lerp(velocity, Vector3.ZERO, 0.2)
+		
 	
 	if player_settings.is_empty():
 		return

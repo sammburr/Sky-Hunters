@@ -6,20 +6,34 @@ extends CharacterBody3D
 
 @onready var head : Node3D = $Head
 @onready var ray_cast : RayCast3D = $Head/RayCast3D
-
+@onready var ground_check : RayCast3D = $GroundCheck
 
 var has_moved : bool = false
 var control_target : VehicalControl = null
 
+var stuck_to : Node3D = null
+var stuck_to_last_pos : Vector3
 
 func _process(delta):
-	if control_target: # Stop player from being affected by forces
-		return         # when using a vehical control, FOR NOW...
+	
+	if ground_check.is_colliding():
+		var collider = ground_check.get_collider()
+		if collider is Blimp:
+			stuck_to = collider
+			stuck_to_last_pos = stuck_to.position
+	
+	if stuck_to:
+		Logger.log(stuck_to.position - stuck_to_last_pos)
+		position += stuck_to.position - stuck_to_last_pos
+		stuck_to_last_pos = stuck_to.position
 	
 	if !is_on_floor():
 		velocity.y -= 9.81 * delta
-		has_moved = true
-		move_and_slide()
+	else:
+		velocity = lerp(velocity, Vector3.ZERO, 0.2)
+	
+	has_moved = true
+	move_and_slide()
 
 func move_player(input_map : PackedByteArray):
 	

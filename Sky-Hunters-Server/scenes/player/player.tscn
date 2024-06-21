@@ -11,6 +11,7 @@ radius = 0.16
 height = 1.11
 
 [node name="Player" type="CharacterBody3D"]
+collision_mask = 5
 script = ExtResource("1_k5t5d")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -28,3 +29,7 @@ collision_mask = 2
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.494, 0)
 shape = SubResource("CapsuleShape3D_gkvul")
+
+[node name="GroundCheck" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0586542, 0)
+target_position = Vector3(0, -0.1, 0)

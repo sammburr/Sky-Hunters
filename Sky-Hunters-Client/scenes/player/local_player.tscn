@@ -17,3 +17,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.908523, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.493545, 0)
 shape = SubResource("CapsuleShape3D_fjhcx")
+
+[node name="GroundCheck" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.059, 0)
+target_position = Vector3(0, -0.1, 0)

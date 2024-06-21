@@ -1,13 +1,24 @@
-[gd_scene load_steps=4 format=3 uid="uid://c1doyxeow83be"]
+[gd_scene load_steps=6 format=3 uid="uid://c1doyxeow83be"]
 
 [ext_resource type="Script" path="res://classes/blimp/blimp.gd" id="1_3qjmt"]
+[ext_resource type="PackedScene" uid="uid://b80ogqc3s6bwu" path="res://scenes/blimp/controls/air_control.tscn" id="2_1nfqs"]
 [ext_resource type="PackedScene" uid="uid://chesmh23vpjg7" path="res://scenes/blimp/controls/steam_control.tscn" id="2_1sk4o"]
 [ext_resource type="PackedScene" uid="uid://2xc2ipb5kc1w" path="res://scenes/blimp/controls/helm_Control.tscn" id="2_wrsd1"]
 
-[node name="Blimp" type="CharacterBody3D" node_paths=PackedStringArray("helm_control", "steam_control")]
+[sub_resource type="BoxShape3D" id="BoxShape3D_rnt2c"]
+size = Vector3(1.997, 0.124, 2.813)
+
+[node name="Blimp" type="StaticBody3D" node_paths=PackedStringArray("helm_control", "steam_control", "air_control")]
 script = ExtResource("1_3qjmt")
 helm_control = NodePath("HelmControl")
 steam_control = NodePath("SteamControl")
+air_control = NodePath("AirControl")
+
+[node name="AirControl" parent="." instance=ExtResource("2_1nfqs")]
+transform = Transform3D(-0.156354, 0, -0.0891825, 0, 0.18, 0, 0.0891825, 0, -0.156354, -0.828, 0, 0)
+min_value = -2.0
+max_value = 2.0
+increment = 0.1
 
 [node name="SteamControl" parent="." instance=ExtResource("2_1sk4o")]
 transform = Transform3D(0.176386, 0, -0.0358862, 0, 0.18, 0, 0.0358862, 0, 0.176386, 0.674, 0, 0.083)
@@ -15,3 +26,7 @@ input_type = 0
 
 [node name="HelmControl" parent="." instance=ExtResource("2_wrsd1")]
 transform = Transform3D(0.18, 0, 0, 0, 0.18, 0, 0, 0, 0.18, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.056, 1.203)
+shape = SubResource("BoxShape3D_rnt2c")

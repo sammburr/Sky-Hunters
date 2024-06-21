@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://b80ogqc3s6bwu"]
+
+[ext_resource type="Script" path="res://classes/blimp/controls/vehical_control.gd" id="1_fj22q"]
+[ext_resource type="PackedScene" uid="uid://d4mem0b4ttb5l" path="res://assets/blimp/air_control.glb" id="2_7b4uf"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rfewy"]
+size = Vector3(1.14398, 1.51005, 0.597168)
+
+[node name="AirControl" type="StaticBody3D" node_paths=PackedStringArray("stand_target")]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_fj22q")
+min_value = -20.0
+max_value = 20.0
+increment = 1.0
+input_type = 1
+stand_target = NodePath("StandTarget")
+
+[node name="air_control" parent="." instance=ExtResource("2_7b4uf")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0200514, 3.00781, -0.805177)
+shape = SubResource("BoxShape3D_rfewy")
+
+[node name="StandTarget" type="Node3D" parent="."]
+transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, 4.37114e-07, 0, -3)

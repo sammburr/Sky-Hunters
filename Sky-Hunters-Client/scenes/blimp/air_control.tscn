@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4w3of8lypll6"]
+
+[ext_resource type="Script" path="res://classes/blimp/controls/air_control.gd" id="1_udwm5"]
+[ext_resource type="PackedScene" uid="uid://d4mem0b4ttb5l" path="res://assets/blimp/air_control.glb" id="2_rwyul"]
+
+[node name="AirControl" type="StaticBody3D"]
+script = ExtResource("1_udwm5")
+
+[node name="air_control" parent="." instance=ExtResource("2_rwyul")]
