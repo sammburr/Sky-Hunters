@@ -18,11 +18,12 @@ var stuck_to_last_pos : Vector3
 
 
 func move_player(pos : Vector3, _head_rot : float, _player_rot : float):
-	var discresion = position.distance_to(pos)
-	if discresion < 0.01:
-		position = pos
 	
-	position = lerp(position, pos, discresion)
+	var discresion = global_position.distance_to(pos)
+	if discresion < 0.01:
+		global_position = pos
+	
+	global_position = lerp(global_position, pos, discresion)
 
 
 func _ready():
@@ -46,13 +47,7 @@ func _process(_delta):
 	if ground_check.is_colliding():
 		var collider = ground_check.get_collider()
 		if collider is Blimp:
-			stuck_to = collider
-			stuck_to_last_pos = stuck_to.position
-		
-	if stuck_to:
-		Logger.log(stuck_to.position - stuck_to_last_pos)
-		position += stuck_to.position - stuck_to_last_pos
-		stuck_to_last_pos = stuck_to.position
+			reparent(collider)
 	
 	var input_map = [
 		Input.is_action_pressed("move_forward"),
@@ -99,7 +94,7 @@ func predict_movement(direction : Vector3):
 	
 	var speed = player_settings["speed"]
 	
-	direction = (transform.basis.inverse() * direction).normalized()
+	direction = (global_transform.basis.inverse() * direction).normalized()
 	
 	velocity.x = direction.z * speed
 	velocity.z = direction.x * speed

@@ -22,10 +22,16 @@ increment = 0.1
 
 [node name="SteamControl" parent="." instance=ExtResource("2_1sk4o")]
 transform = Transform3D(0.176386, 0, -0.0358862, 0, 0.18, 0, 0.0358862, 0, 0.176386, 0.674, 0, 0.083)
+min_value = -2.0
+max_value = 2.0
+increment = 0.1
 input_type = 0
 
 [node name="HelmControl" parent="." instance=ExtResource("2_wrsd1")]
 transform = Transform3D(0.18, 0, 0, 0, 0.18, 0, 0, 0, 0.18, 0, 0, 0)
+min_value = -0.1
+max_value = 0.1
+increment = 0.005
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.056, 1.203)

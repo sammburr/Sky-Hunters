@@ -80,7 +80,6 @@ func set_player_input_map(map : PackedByteArray):
 
 @rpc("any_peer", "call_remote", "reliable", 1)
 func try_interact():
-	Logger.log("Try interact")
 	
 	var sender = multiplayer.get_remote_sender_id()
 	master.player_manager.try_interact(sender)

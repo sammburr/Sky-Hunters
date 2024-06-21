@@ -36,4 +36,4 @@ script = ExtResource("1_jue62")
 mesh = SubResource("SphereMesh_ljw0r")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.37746, 21.3577, 37.404)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.37746, 2.15911, -3.94616)

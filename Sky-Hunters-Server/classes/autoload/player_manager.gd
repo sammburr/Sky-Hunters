@@ -14,15 +14,17 @@ const default_player_settings : PlayerSettings = preload("res://classes/default_
 # players = { "id": { "name": ..., "speed": ... }, ... }
 var players = {}
 
+var player_nodes = []
+
 
 func _process(_delta):
 	var player_transform_map = PackedByteArray([0,0,0,0,0,0,0,0,0,0])
 	
-	for child in get_children():
+	for child in player_nodes:
 		if child is Player && child.has_moved:
-			player_transform_map.encode_half(0, child.position.x)
-			player_transform_map.encode_half(2, child.position.y)
-			player_transform_map.encode_half(4, child.position.z)
+			player_transform_map.encode_half(0, child.global_position.x)
+			player_transform_map.encode_half(2, child.global_position.y)
+			player_transform_map.encode_half(4, child.global_position.z)
 			
 			player_transform_map.encode_half(6, child.head.rotation.x)
 			player_transform_map.encode_half(8, child.rotation.y)
@@ -38,6 +40,7 @@ func add_player(id : int):
 	
 	var player = player_scene.instantiate()
 	player.name = str(id)
+	player_nodes.append(player)
 	add_child(player)
 
 
@@ -45,19 +48,21 @@ func remove_player(id : int):
 	players.erase(str(id))
 	Logger.log(players)
 	
-	for child in get_children():
+	var i = 0
+	for child in player_nodes:
 		if child.name == str(id):
 			child.queue_free()
-
+			player_nodes.remove_at(i)
+		i += 1
 
 func move_player(id : int, input_map : PackedByteArray):
-	for child in get_children():
+	for child in player_nodes:
 		if child is Player && child.name == str(id):
 			child.move_player(input_map)
 
 
 func try_interact(id : int):
-	for child in get_children():
+	for child in player_nodes:
 		if child is Player && child.name == str(id):
 			child.try_interact()
 

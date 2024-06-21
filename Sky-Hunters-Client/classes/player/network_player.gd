@@ -11,6 +11,6 @@ func _ready():
 	head_ik.start()
 
 func move_player(pos : Vector3, head_rot : float, player_rot : float):
-	position = pos
+	global_position = pos
 	head.rotation.x = head_rot
 	rotation.y = player_rot

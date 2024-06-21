@@ -102,11 +102,11 @@ func mirror_player_transform(id : int, map : PackedByteArray):
 	var player_rot = map.decode_half(8)
 	
 	if id == multiplayer.multiplayer_peer.get_unique_id():
-		for child in master.player_manager.get_children():
+		for child in master.player_manager.player_nodes:
 			if child is LocalPlayer:
 				child.move_player(postition, head_rot, player_rot)
 	else:
-		for child in master.player_manager.get_children():
+		for child in master.player_manager.player_nodes:
 			if child is NetworkPlayer && child.name == str(id):
 				child.move_player(postition, head_rot, player_rot)
 

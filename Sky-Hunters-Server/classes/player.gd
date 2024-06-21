@@ -11,21 +11,13 @@ extends CharacterBody3D
 var has_moved : bool = false
 var control_target : VehicalControl = null
 
-var stuck_to : Node3D = null
-var stuck_to_last_pos : Vector3
-
 func _process(delta):
 	
 	if ground_check.is_colliding():
 		var collider = ground_check.get_collider()
-		if collider is Blimp:
-			stuck_to = collider
-			stuck_to_last_pos = stuck_to.position
-	
-	if stuck_to:
-		Logger.log(stuck_to.position - stuck_to_last_pos)
-		position += stuck_to.position - stuck_to_last_pos
-		stuck_to_last_pos = stuck_to.position
+		if collider is Blimp && get_parent() != collider:
+			reparent(collider)
+
 	
 	if !is_on_floor():
 		velocity.y -= 9.81 * delta
@@ -67,7 +59,7 @@ func move_player(input_map : PackedByteArray):
 		0.0,
 		move_right - move_left
 	)
-	direction = (transform.basis.inverse() * direction).normalized()
+	direction = (global_transform.basis.inverse() * direction).normalized()
 	
 	velocity.x = direction.z * speed
 	velocity.z = direction.x * speed
@@ -88,4 +80,4 @@ func try_interact():
 		var collision = ray_cast.get_collider()
 		if collision is VehicalControl:
 			control_target = collision
-			position = collision.stand_target.global_position
+			global_position = collision.stand_target.global_position
