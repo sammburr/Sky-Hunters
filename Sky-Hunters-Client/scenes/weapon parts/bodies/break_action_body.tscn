@@ -19,12 +19,17 @@ _data = {
 "Reload": SubResource("Animation_3r5ht")
 }
 
-[node name="break_action_body" node_paths=PackedStringArray("hindge", "stock_socket", "barrel_socket", "animation_player") instance=ExtResource("1_bh3e5")]
+[node name="break_action_body" node_paths=PackedStringArray("hindge", "stock_socket", "barrel_socket", "left_ik_target", "right_ik_target", "animation_player") instance=ExtResource("1_bh3e5")]
 script = ExtResource("2_wmnbb")
 hindge = NodePath("Cube_002")
 stock_socket = NodePath("SocketS")
 barrel_socket = NodePath("SocketB")
+left_ik_target = NodePath("LeftIK")
+right_ik_target = NodePath("Cube_002/RightIK")
 animation_player = NodePath("AnimationPlayer")
+
+[node name="RightIK" type="Node3D" parent="Cube_002" index="0"]
+transform = Transform3D(-4.37114e-08, -0.965926, 0.258819, 1, -4.2222e-08, 1.13133e-08, 0, 0.258819, 0.965926, -2.01343, 0.0570217, 0)
 
 [node name="SocketB" type="Node3D" parent="." index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.96447, 0.645497, 0.0242339)
@@ -36,3 +41,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.20707, -1.10807, -0.0097068
 libraries = {
 "": SubResource("AnimationLibrary_urksk")
 }
+
+[node name="LeftIK" type="Node3D" parent="." index="5"]
+transform = Transform3D(-0.5, -0.866025, -4.37114e-08, -0.866025, 0.5, -7.57103e-08, 8.74228e-08, 0, -1, 5.24908, -1.9719, 0)

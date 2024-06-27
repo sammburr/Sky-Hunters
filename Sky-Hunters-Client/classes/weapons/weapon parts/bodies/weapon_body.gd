@@ -4,6 +4,8 @@ extends Node3D
 
 @export var stock_socket : Node3D
 @export var barrel_socket : Node3D
+@export var left_ik_target : Node3D
+@export var right_ik_target : Node3D
 @export var animation_player : AnimationPlayer
 
 

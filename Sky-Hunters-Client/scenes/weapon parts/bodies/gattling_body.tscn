@@ -3,12 +3,17 @@
 [ext_resource type="PackedScene" uid="uid://cb43vhapii03p" path="res://assets/weapon parts/bodies/gattling_body.glb" id="1_6uiw3"]
 [ext_resource type="Script" path="res://classes/weapons/weapon parts/bodies/gattling_body.gd" id="2_qwacp"]
 
-[node name="gattling_body" node_paths=PackedStringArray("crank", "gattle", "stock_socket", "barrel_socket") instance=ExtResource("1_6uiw3")]
+[node name="gattling_body" node_paths=PackedStringArray("crank", "gattle", "stock_socket", "barrel_socket", "left_ik_target", "right_ik_target") instance=ExtResource("1_6uiw3")]
 script = ExtResource("2_qwacp")
 crank = NodePath("Crank")
 gattle = NodePath("Gattle")
 stock_socket = NodePath("SocketS")
 barrel_socket = NodePath("SocketB")
+left_ik_target = NodePath("LeftIK")
+right_ik_target = NodePath("Crank/RightIK")
+
+[node name="RightIK" type="Node3D" parent="Crank" index="0"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.0863633, 2.04972, -3.47505)
 
 [node name="SocketB" type="Node3D" parent="." index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0.151444, 0.148571)
@@ -17,3 +22,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0.151444, 0.148571)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.50749, -1.83221, -0.0831399)
 
 [node name="Timer" type="Timer" parent="." index="4"]
+
+[node name="LeftIK" type="Node3D" parent="." index="6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.68772, -3.06855, 0.233648)

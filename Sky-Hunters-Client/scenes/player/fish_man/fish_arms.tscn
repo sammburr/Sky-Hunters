@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://2xbp5la3tgwi"]
+
+[ext_resource type="PackedScene" uid="uid://dnp8juoykyl0j" path="res://assets/player/fish_man/fish_arms.glb" id="1_ar55a"]
+[ext_resource type="Script" path="res://classes/player/local_arms.gd" id="2_uo88w"]
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rxs52"]
+
+[node name="fish_arms" node_paths=PackedStringArray("left_ik", "right_ik") instance=ExtResource("1_ar55a")]
+script = ExtResource("2_uo88w")
+left_ik = NodePath("Armature/Skeleton3D/LeftIK")
+right_ik = NodePath("Armature/Skeleton3D/RightIK")
+
+[node name="Armature" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15.1213, 0)
+
+[node name="LeftIK" type="SkeletonIK3D" parent="Armature/Skeleton3D" index="1"]
+process_priority = 1
+root_bone = &"mixamorig_LeftArm"
+tip_bone = &"mixamorig_LeftHand"
+
+[node name="RightIK" type="SkeletonIK3D" parent="Armature/Skeleton3D" index="2"]
+process_priority = 1
+root_bone = &"mixamorig_RightArm"
+tip_bone = &"mixamorig_RightHand"
+
+[node name="AnimationPlayer" parent="." index="1"]
+libraries = {
+"": SubResource("AnimationLibrary_rxs52")
+}

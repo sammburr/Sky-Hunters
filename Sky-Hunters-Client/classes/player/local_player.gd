@@ -5,6 +5,7 @@ extends CharacterBody3D
 @export var sens : float = 0.015
 @export var mouse_smooth : float = 0.5
 @export var weapon_socket : Node3D
+@export var local_arms : LocalArms
 
 
 @onready var master : Master = get_node("/root/Master")
@@ -86,8 +87,8 @@ func _process(_delta):
 		var collision = interaction_check.get_collider()
 		if collision is SteamControl || collision is AirControl || collision is HelmControl:
 			master.ui_manager.show_tool_tip("Press E to use")
-	#else:
-		#master.ui_manager.close_tool_tip()
+	else:
+		master.ui_manager.close_tool_tip()
 
 
 func predict_movement(direction : Vector3):

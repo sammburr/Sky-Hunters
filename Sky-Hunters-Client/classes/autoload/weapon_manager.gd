@@ -29,8 +29,6 @@ func _ready():
 	barrels = [single_barrel, double_barrel]
 
 
-
-
 func generate_weapon():
 	if local_weapon:
 		local_weapon.queue_free()
@@ -40,9 +38,13 @@ func generate_weapon():
 	var barrel : PartInfo = barrels.pick_random()
 	
 	local_weapon = Weapon.create_weapon(stock, body, barrel)
-	local_weapon.scale = Vector3.ONE * 0.05
+	local_weapon.scale = Vector3.ONE * 0.04
+	
 	master.player_manager.local_player.weapon_socket.add_child(local_weapon)
-	master.ui_manager.show_tool_tip(stock.part_name + " " + body.part_name + " " + barrel.part_name)
+	master.player_manager.local_player.local_arms.start_ik(
+		local_weapon.current_body_inst.left_ik_target.get_path(),
+		local_weapon.current_body_inst.right_ik_target.get_path()
+	)
 
 
 func _process(delta):
