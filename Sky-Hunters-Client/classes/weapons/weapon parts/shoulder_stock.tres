@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="PartInfo" load_steps=3 format=3 uid="uid://der3o0442xp8t"]
+
+[ext_resource type="PackedScene" uid="uid://1dlweytb1xuq" path="res://scenes/weapon parts/stocks/shoulder_stock.tscn" id="1_cdyrh"]
+[ext_resource type="Script" path="res://classes/weapons/weapon parts/part_info.gd" id="1_d71t6"]
+
+[resource]
+script = ExtResource("1_d71t6")
+part_name = "Shoulder Stock"
+part_type = 0
+scene = ExtResource("1_cdyrh")

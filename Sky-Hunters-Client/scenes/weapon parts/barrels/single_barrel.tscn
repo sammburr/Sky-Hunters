@@ -1,0 +1,9 @@
+[gd_scene load_steps=4 format=3 uid="uid://b5kiplqncsq4w"]
+
+[ext_resource type="PackedScene" uid="uid://cx1lkqqympvys" path="res://assets/weapon parts/barrels/single_barrel.glb" id="1_qj2mc"]
+[ext_resource type="Script" path="res://classes/weapons/weapon parts/weapon_part.gd" id="2_rnc7t"]
+[ext_resource type="Resource" uid="uid://bqdh4ljy3nn64" path="res://classes/weapons/weapon parts/barrels/single_barrel.tres" id="3_b4ypn"]
+
+[node name="single_barrel" instance=ExtResource("1_qj2mc")]
+script = ExtResource("2_rnc7t")
+info = ExtResource("3_b4ypn")

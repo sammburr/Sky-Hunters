@@ -17,8 +17,6 @@ func _process(delta):
 	position += force
 	rotate_y(helm_control.value * 0.1)
 	
-	Logger.log(transform.basis * Vector3(0,0,-1.0))
-	
 	state.encode_s8(0, helm_control.value)
 	state.encode_s8(1, steam_control.value)
 	state.encode_s8(2, air_control.value)

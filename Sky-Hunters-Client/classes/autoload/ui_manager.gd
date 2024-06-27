@@ -12,6 +12,7 @@ const pause_menu_ui_scene = preload("res://scenes/ui/pause_ui.tscn")
 var main_menu_ui : MainMenuUI
 var pause_menu_ui : PauseUI
 var player_list : InfoUIPopUp
+var tool_tip : InfoUIPopUp
 
 
 # Create and attach an instance of the main menu UI
@@ -59,6 +60,19 @@ func close_player_list():
 	if player_list:
 		player_list.queue_free()
 	player_list = null
+
+
+func show_tool_tip(tip : String):
+	close_tool_tip()
+	
+	tool_tip = InfoUIPopUp.create_info_popup(tip, false, true)
+	add_child(tool_tip)
+
+
+func close_tool_tip():
+	if tool_tip:
+		tool_tip.queue_free()
+	tool_tip = null
 
 
 func _process(_delta):

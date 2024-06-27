@@ -9,6 +9,7 @@ extends Node
 @onready var level_manager : LevelManager = get_node("/root/LevelManager")
 @onready var player_manager : PlayerManager = get_node("/root/PlayerManager")
 @onready var entity_manager : EntityManager = get_node("/root/EntityManager")
+@onready var weapon_manager : WeaponManager = get_node("/root/WeaponManager")
 
 
 func _ready():

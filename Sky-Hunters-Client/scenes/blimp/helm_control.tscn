@@ -1,9 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://c6fjhy8vkhtq0"]
+[gd_scene load_steps=4 format=3 uid="uid://c6fjhy8vkhtq0"]
 
 [ext_resource type="Script" path="res://classes/blimp/controls/helm_control.gd" id="1_38jl8"]
 [ext_resource type="PackedScene" uid="uid://cg78vtdp83a87" path="res://assets/blimp/helm_control.glb" id="1_qapgj"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_e1wy0"]
+size = Vector3(2.046, 1.965, 0.69)
+
 [node name="HelmControl" type="StaticBody3D"]
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_38jl8")
 
 [node name="helm_control" parent="." instance=ExtResource("1_qapgj")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.044, 3.235, 0.458)
+shape = SubResource("BoxShape3D_e1wy0")

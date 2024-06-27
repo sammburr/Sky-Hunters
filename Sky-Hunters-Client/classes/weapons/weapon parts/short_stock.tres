@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="PartInfo" load_steps=3 format=3 uid="uid://cxpnln0h4xa4e"]
+
+[ext_resource type="Script" path="res://classes/weapons/weapon parts/part_info.gd" id="1_h0pp1"]
+[ext_resource type="PackedScene" uid="uid://bnl6ii7w8hy4" path="res://scenes/weapon parts/stocks/short_stock.tscn" id="1_l4rly"]
+
+[resource]
+script = ExtResource("1_h0pp1")
+part_name = "Short Stock"
+part_type = 0
+scene = ExtResource("1_l4rly")

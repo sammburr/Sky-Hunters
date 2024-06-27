@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://bnl6ii7w8hy4"]
+
+[ext_resource type="PackedScene" uid="uid://bw0bvv2ca246" path="res://assets/weapon parts/stocks/short_stock.glb" id="1_keiff"]
+
+[node name="short_stock" instance=ExtResource("1_keiff")]

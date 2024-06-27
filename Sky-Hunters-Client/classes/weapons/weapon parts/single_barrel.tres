@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PartInfo" load_steps=3 format=3 uid="uid://gg5qnd3ii7yy"]
+
+[ext_resource type="PackedScene" uid="uid://b5kiplqncsq4w" path="res://scenes/weapon parts/barrels/single_barrel.tscn" id="1_2jseu"]
+[ext_resource type="Script" path="res://classes/weapons/weapon parts/part_info.gd" id="1_csirg"]
+
+[resource]
+script = ExtResource("1_csirg")
+part_name = "Single Barrel"
+part_type = 2
+scene = ExtResource("1_2jseu")
+number_barrels = 1

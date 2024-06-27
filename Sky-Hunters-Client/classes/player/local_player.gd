@@ -10,6 +10,7 @@ extends CharacterBody3D
 
 @onready var head : Node3D = $Head
 @onready var ground_check : RayCast3D = $GroundCheck
+@onready var interaction_check : RayCast3D = $Head/RayCast3D
 
 
 var has_mouse_moved : bool = false
@@ -79,6 +80,14 @@ func _process(_delta):
 		has_mouse_moved = false
 
 	predict_movement(direction)
+
+	if interaction_check.is_colliding():
+		var collision = interaction_check.get_collider()
+		if collision is SteamControl || collision is AirControl || collision is HelmControl:
+			master.ui_manager.show_tool_tip("Press E to use")
+	else:
+		master.ui_manager.close_tool_tip()
+
 
 func predict_movement(direction : Vector3):
 	var player_settings : Dictionary = master.player_manager.get_local_player_settings()

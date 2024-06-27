@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=3 uid="uid://mowei3cjxp1p"]
+
+[ext_resource type="PackedScene" uid="uid://bsarvts640icg" path="res://assets/weapon parts/bodies/break_action_body.glb" id="1_bh3e5"]
+[ext_resource type="Script" path="res://classes/weapons/weapon parts/bodies/break_action.gd" id="2_wmnbb"]
+
+[sub_resource type="Animation" id="Animation_ytuu0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hindge:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_itaky"]
+resource_name = "reload"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hindge:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-1.5708, 0, 0), Vector3(-1.5708, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hwtej"]
+_data = {
+"RESET": SubResource("Animation_ytuu0"),
+"reload": SubResource("Animation_itaky")
+}
+
+[node name="break_action_body" node_paths=PackedStringArray("hindge", "stock_socket", "barrel_socket", "animation_player") instance=ExtResource("1_bh3e5")]
+script = ExtResource("2_wmnbb")
+hindge = NodePath("Hindge")
+stock_socket = NodePath("SocketS")
+barrel_socket = NodePath("SocketB")
+animation_player = NodePath("AnimationPlayer")
+
+[node name="SocketB" type="Node3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.825458, -0.307915)
+
+[node name="SocketS" type="Node3D" parent="." index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.79189)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="4"]
+libraries = {
+"": SubResource("AnimationLibrary_hwtej")
+}

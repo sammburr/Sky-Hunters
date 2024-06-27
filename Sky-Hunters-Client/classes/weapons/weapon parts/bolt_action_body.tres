@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="PartInfo" load_steps=3 format=3 uid="uid://ci20le0ixetb"]
+
+[ext_resource type="Script" path="res://classes/weapons/weapon parts/part_info.gd" id="1_j8o88"]
+[ext_resource type="PackedScene" uid="uid://dmo0dqws2mrsq" path="res://scenes/weapon parts/bodies/bolt_action_body.tscn" id="1_ndjrj"]
+
+[resource]
+script = ExtResource("1_j8o88")
+part_name = "Bolt Action"
+part_type = 1
+scene = ExtResource("1_ndjrj")

@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://1dlweytb1xuq"]
+
+[ext_resource type="PackedScene" uid="uid://btqp7kf6auond" path="res://assets/weapon parts/stocks/shoulder_stock.glb" id="1_hbuff"]
+
+[node name="shoulder_stock" instance=ExtResource("1_hbuff")]

@@ -1,9 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://5naxk7gmda0b"]
+[gd_scene load_steps=4 format=3 uid="uid://5naxk7gmda0b"]
 
 [ext_resource type="Script" path="res://classes/blimp/controls/steam_control.gd" id="1_up05j"]
 [ext_resource type="PackedScene" uid="uid://cdqnxehyu0sna" path="res://assets/blimp/steam_control.glb" id="2_m8bt4"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_hoi3j"]
+size = Vector3(0.617, 1.51, 1.599)
+
 [node name="SteamControl" type="StaticBody3D"]
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_up05j")
 
 [node name="steam_control" parent="." instance=ExtResource("2_m8bt4")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.008, 0)
+shape = SubResource("BoxShape3D_hoi3j")

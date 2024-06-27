@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="PartInfo" load_steps=3 format=3 uid="uid://d1dya8ltguysl"]
+
+[ext_resource type="Script" path="res://classes/weapons/weapon parts/part_info.gd" id="1_dsdvw"]
+[ext_resource type="PackedScene" uid="uid://b3ywfx3pldj6u" path="res://scenes/weapon parts/bodies/gattling_body.tscn" id="1_iv8bg"]
+
+[resource]
+script = ExtResource("1_dsdvw")
+part_name = "Gattling"
+part_type = 1
+scene = ExtResource("1_iv8bg")
