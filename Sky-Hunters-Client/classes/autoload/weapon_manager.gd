@@ -4,6 +4,9 @@
 extends Node
 
 
+@onready var master : Master = get_node("/root/Master")
+
+
 const short_stock : PartInfo = preload("res://classes/weapons/weapon parts/short_stock.tres")
 const shoulder_stock : PartInfo = preload("res://classes/weapons/weapon parts/shoulder_stock.tres")
 const bolt_action : PartInfo = preload("res://classes/weapons/weapon parts/bolt_action_body.tres")
@@ -31,9 +34,15 @@ func _ready():
 func generate_weapon():
 	if local_weapon:
 		local_weapon.queue_free()
-	local_weapon = Weapon.create_weapon(stocks.pick_random(), bodies.pick_random(), barrels.pick_random())
-	local_weapon.scale = Vector3.ONE * 0.1
-	add_child(local_weapon)
+	
+	var stock : PartInfo = stocks.pick_random()
+	var body : PartInfo = bodies.pick_random()
+	var barrel : PartInfo = barrels.pick_random()
+	
+	local_weapon = Weapon.create_weapon(stock, body, barrel)
+	local_weapon.scale = Vector3.ONE * 0.05
+	master.player_manager.local_player.weapon_socket.add_child(local_weapon)
+	master.ui_manager.show_tool_tip(stock.part_name + " " + body.part_name + " " + barrel.part_name)
 
 
 func _process(delta):

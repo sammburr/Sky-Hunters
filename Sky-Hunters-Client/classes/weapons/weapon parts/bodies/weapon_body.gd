@@ -14,6 +14,7 @@ var current_barrel_info : PartInfo
 
 
 var is_busy : bool = false
+var start_pos : Vector3
 
 
 func add_parts(stock : PartInfo, barrel : PartInfo):
@@ -28,10 +29,11 @@ func add_parts(stock : PartInfo, barrel : PartInfo):
 
 
 func _process(delta):
-	position = lerp(position, Vector3.ZERO, 0.2)
+	position = lerp(position, start_pos, 0.2)
 
 
 func _ready():
+	start_pos = position
 	if animation_player:
 		animation_player.animation_finished.connect(_on_animation_finished)
 		animation_player.animation_started.connect(_on_animation_started)
@@ -54,8 +56,8 @@ func reload_weapon():
 		return
 	
 	Logger.log("reloaded!")
-	animation_player.play("reload")
+	animation_player.play("Reload")
 
 
 func add_recoil():
-	position.z -= 2.0
+	position.x += 2.0

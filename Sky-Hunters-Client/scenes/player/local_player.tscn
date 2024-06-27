@@ -6,8 +6,9 @@
 radius = 0.16
 height = 1.11
 
-[node name="LocalPlayer" type="CharacterBody3D"]
+[node name="LocalPlayer" type="CharacterBody3D" node_paths=PackedStringArray("weapon_socket")]
 script = ExtResource("1_n8uuf")
+weapon_socket = NodePath("Head/Weapon Socket")
 
 [node name="Head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.908523, 0)
@@ -17,6 +18,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.908523, 0)
 [node name="RayCast3D" type="RayCast3D" parent="Head"]
 target_position = Vector3(0, 0, -1)
 collision_mask = 2
+
+[node name="Weapon Socket" type="Node3D" parent="Head"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.430221, -0.279821, -0.90324)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.493545, 0)

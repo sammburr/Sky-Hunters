@@ -1,71 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://dmo0dqws2mrsq"]
+[gd_scene load_steps=3 format=3 uid="uid://dmo0dqws2mrsq"]
 
 [ext_resource type="PackedScene" uid="uid://d35oetas3jxiy" path="res://assets/weapon parts/bodies/bolt_action_body.glb" id="1_wgefb"]
 [ext_resource type="Script" path="res://classes/weapons/weapon parts/bodies/bolt_action.gd" id="2_lvjlw"]
-
-[sub_resource type="Animation" id="Animation_uuh7e"]
-resource_name = "fire"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Cube_006:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 1),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0, 1.51564), Vector3(0, 0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_343lc"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Cube_006:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_7mmka"]
-resource_name = "reload"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 1),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.648669), Vector3(0, 0, 0)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_g77b3"]
-_data = {
-"RESET": SubResource("Animation_343lc"),
-"fire": SubResource("Animation_uuh7e"),
-"reload": SubResource("Animation_7mmka")
-}
 
 [node name="bolt_action_body" node_paths=PackedStringArray("stock_socket", "barrel_socket", "animation_player") instance=ExtResource("1_wgefb")]
 script = ExtResource("2_lvjlw")
@@ -74,12 +10,7 @@ barrel_socket = NodePath("SocketB")
 animation_player = NodePath("AnimationPlayer")
 
 [node name="SocketB" type="Node3D" parent="." index="2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.10296)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -7.27504, 0, 0.0227354)
 
 [node name="SocketS" type="Node3D" parent="." index="3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.12825)
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="4"]
-libraries = {
-"": SubResource("AnimationLibrary_g77b3")
-}
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.92788, -1, -0.041396)

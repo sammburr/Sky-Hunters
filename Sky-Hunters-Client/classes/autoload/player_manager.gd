@@ -10,6 +10,7 @@ const network_player_scene = preload("res://scenes/player/network_player.tscn")
 
 # players = { "id": { "name": ..., "speed": ... }, ... }
 var players = {}
+var local_player : LocalPlayer
 
 var player_nodes = []
 
@@ -24,7 +25,7 @@ func add_network_player(id : int):
 
 
 func add_local_player():
-	var local_player = local_player_scene.instantiate()
+	local_player = local_player_scene.instantiate()
 	local_player.name = "local_player"
 	player_nodes.append(local_player)
 	add_child(local_player)

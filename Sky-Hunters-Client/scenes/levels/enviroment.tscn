@@ -20,5 +20,4 @@ environment = SubResource("Environment_wafhd")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.767937, 0.347889, 0.537816, -0.640525, 0.41709, 0.644797, 0, -0.839648, 0.543131, 0, 0, 0)
 light_color = Color(0.72313, 0.853587, 0.796991, 1)
-light_energy = 0.543
 shadow_enabled = true

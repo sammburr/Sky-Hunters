@@ -10,7 +10,7 @@ func _ready():
 	super._ready()
 	
 	loaded_shells = current_barrel_info.number_barrels
-	magazine_count = 10
+	magazine_count = 3
 	
 	add_child(current_barrel_inst)
 	add_child(current_stock_inst)
@@ -26,7 +26,7 @@ func fire_weapon():
 		loaded_shells -= 1
 	else:
 		if magazine_count > current_barrel_info.number_barrels:
-			animation_player.play("fire")
+			animation_player.play("Chamber")
 			loaded_shells = current_barrel_info.number_barrels
 			magazine_count -= current_barrel_info.number_barrels
 		else:
