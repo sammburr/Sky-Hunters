@@ -10,7 +10,8 @@ extends Node
 # 1 : Player Info
 # 2 : Level Info
 # 3 : Blimp Info
-var channels : int = 3
+# 4 : Entity Info
+var channels : int = 4
 var player_name : String = ""
 
 
@@ -127,3 +128,36 @@ func update_blimp(state : PackedByteArray):
 		master.entity_manager.spawn_blimp(pos, rot)
 	
 	master.entity_manager.blimp_instance.update_blimp(state)
+
+
+# [ entity_id, entity_type, entity_config]
+@rpc("authority", "call_remote", "reliable", 4)
+func add_entity(state : PackedByteArray):
+	var id = state.decode_u8(0)
+	var type = state.decode_u8(1)
+	var config = state.decode_u8(2)
+	Logger.log(int(str(config).substr(2)))
+	Logger.log(int(str(config).substr(1)))
+	Logger.log(int(str(config).substr(0)))
+
+	var dict_config = {
+		"stock": master.weapon_manager.stocks[int(str(config).substr(2))],
+		"body": master.weapon_manager.bodies[int(str(config).substr(1,1))],
+		"barrel": master.weapon_manager.barrels[int(str(config).substr(0,1))],
+	}
+	master.entity_manager.add_entity(id, type, dict_config)
+
+
+# [ entity_id, | posx, posx | , ... ]
+@rpc("authority", "call_remote", "unreliable_ordered", 4)
+func update_entity(state : PackedByteArray):
+	var id = state.decode_u8(0)
+	var pos = Vector3(
+		state.decode_half(1),
+		state.decode_half(3),
+		state.decode_half(5)
+	)
+	
+	for entity : Node3D in master.entity_manager.entities:
+		if entity.name == str(id):
+			entity.position = pos

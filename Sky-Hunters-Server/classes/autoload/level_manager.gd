@@ -16,6 +16,7 @@ var levels = {
 
 var current_level : Node3D
 var blimp_spawn_point : BlimpSpawnPoint
+var weapon_spawn_points : Array[WeaponSpawnPoint]
 
 
 func load_level(info : LevelInfo):
@@ -31,5 +32,7 @@ func load_level(info : LevelInfo):
 			for child in current_level.get_children():
 				if child is BlimpSpawnPoint:
 					blimp_spawn_point = child
+				elif child is WeaponSpawnPoint:
+					weapon_spawn_points.append(child)
 			
 			Logger.log("Loaded level: " + info.name)

@@ -14,6 +14,19 @@ static func byte_as_binary(byte : int) -> String:
 	return string
 
 
+static func pack_b8(bools : Array) -> int:
+	var packed_byte: int = 0
+	
+	# Ensure only the first 8 boolean values are considered
+	var num_bools_to_pack: int = min(bools.size(), 8)
+	
+	for i in range(num_bools_to_pack):
+		if bools[i]:
+			packed_byte |= (1 << i)
+	
+	return packed_byte
+
+
 static func unpack_b8(byte : int) -> Array:
 	var bools : Array = []
 	

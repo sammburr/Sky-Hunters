@@ -1,0 +1,2 @@
+class_name WeaponSpawnPoint
+extends Node3D

@@ -22,6 +22,12 @@ func _ready():
 	# Load a level
 	level_manager.load_level(level_manager.test_level)
 	entity_manager.spawn_blimp(level_manager.blimp_spawn_point)
+	for weapon : WeaponSpawnPoint in level_manager.weapon_spawn_points:
+		var state = entity_manager.add_entity(
+			weapon.position,
+			entity_manager.entities.size(),
+			entity_manager.EntityType.Weapon
+		)
 
 
 func _on_server_started():

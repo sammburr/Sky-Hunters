@@ -16,7 +16,8 @@ var max_clients : int = 64
 # 1 : Player Info
 # 2 : Level Info
 # 3 : Blimp Info
-var channels : int = 3
+# 4 : Entity Info
+var channels : int = 4
 
 var did_just_connect : bool = false
 
@@ -45,6 +46,18 @@ func _on_peer_connected(id : int):
 	master.player_manager.add_player(id)
 	
 	mirror_players.rpc(master.player_manager.players)
+	
+	for entity : Weapon in master.entity_manager.entities:
+		var state : PackedByteArray = PackedByteArray([0,0,0])
+		state.encode_u8(0, entity.entity_id)
+		state.encode_u8(1, EntityManager.EntityType.Weapon)
+	
+			# i.e. barrel no 2 + body no 3 + stock no 1 = 1 2 0 
+		# (binary) = 1 10 0
+		var config_value = int( str(entity.barrel) + str(entity.body) + str(entity.stock)  )
+		Logger.log(config_value)
+		state.encode_u8(2, config_value)
+		add_entity.rpc_id(id, state)
 
 
 func _on_peer_disconnected(id : int):
@@ -95,9 +108,9 @@ func mirror_players(_dict : Dictionary):
 	pass
 
 
+#TODO: update comment
 # PackedFloat32Array represents:
 # [ | posx | , | posy |, | posz |]
-
 @rpc("authority", "call_remote", "unreliable_ordered", 1)
 func mirror_player_transform(_id : int, _map : PackedByteArray):
 	pass
@@ -106,4 +119,16 @@ func mirror_player_transform(_id : int, _map : PackedByteArray):
 # [ helm_value, steam_value, air_value, | posx, posx |, ..., | roty, roty | ]
 @rpc("authority", "call_remote", "unreliable_ordered", 3)
 func update_blimp(state : PackedByteArray):
+	pass
+
+
+# [ entity_id, entity_type, entity_config]
+@rpc("authority", "call_remote", "reliable", 4)
+func add_entity(state : PackedByteArray):
+	pass
+
+
+# [ entity_id, | posx, posx | , ... ]
+@rpc("authority", "call_remote", "unreliable_ordered", 4)
+func update_entity(state : PackedByteArray):
 	pass
